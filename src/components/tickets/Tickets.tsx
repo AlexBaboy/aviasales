@@ -4,12 +4,25 @@ import moment from 'moment'
 import styles from './Tickets.module.sass'
 import Simulate from "react-dom/test-utils";
 
+export interface TestInputProps extends React.HTMLAttributes<HTMLInputElement> {
+    name: string;
+    label: string;
+    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    placeholder?: string;
+    value?: string;
+    type?: string;
+    error?: string;
+    className?: string;
+}
+
 function Tickets() {
 
     const [tickets, setTickets] = useState<any[]>([])
     const [searchId, setSearchId] = useState('')
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
+    const [filter, setFilterValue] = useState()
+    const [checkBoxChecked, setCheckBoxChecked] = useState(false)
 
     useEffect( () => {
         axios.get('https://front-test.beta.aviasales.ru/search')
@@ -35,6 +48,7 @@ function Tickets() {
             .catch( (error:Error) => {
                 console.log(error)
                 setException(error.message)
+                setTickets([])
             })
 
     }
@@ -96,6 +110,68 @@ function Tickets() {
         return countText;
     }
 
+    const filterMake = ( element: React.ChangeEvent<HTMLInputElement>, type:String = "all" ) => {
+
+        const checked = element.target.checked
+        const val = type
+
+        if(checked)
+            console.log()
+            //setCheckBoxChecked(false)
+        else
+            console.log("unchecked!")
+
+        let filterType:String
+        let stopsCount:number = 0
+
+        switch (type) {
+            case "all":
+                filterType = 'all'
+                //setCheckBoxChecked(true)
+                break;
+            case "withoutStops":
+                filterType = 'withoutStops'
+                stopsCount = 0
+                break;
+            case "oneStop":
+                filterType = 'oneStop'
+                stopsCount = 1
+                break;
+            case "twoStops":
+                filterType = 'twoStops'
+                stopsCount = 2
+                break;
+            case "threeStops":
+                filterType = 'threeStops'
+                stopsCount = 3
+                break;
+            default:
+                filterType = 'all'
+        }
+        console.log("filterType = " + filterType)
+        console.log("stopsCount = " + stopsCount)
+
+        if(stopsCount) {
+
+            const arr = [{"client_id":"AAA1","contracts":[{"contract_id":"CON1-AAA1","revisions":[{"date":"2018-07-30","status":"First Sign"}]}]}];
+            const res = arr.filter(client => client.contracts.some(contract => contract.revisions.some(revision => revision.status === 'First Sign')));
+
+            console.log(res);
+
+            let filteredTickets = tickets.filter(
+                ticket => ticket.segments.some
+                    ( (segment: { stops: string | any[]; }) => segment.stops.length == stopsCount))
+
+            setTickets(filteredTickets)
+            console.log(tickets)
+
+        } else {
+            getTickets(searchId)
+            console.log(tickets)
+        }
+
+    }
+
     return (
         <div>
             <div className={styles.filter}>
@@ -104,24 +180,24 @@ function Tickets() {
                 </div>
                 <div className={styles.filterSetting}>
                     <div className={styles.filterRow}>
-                        <input className={styles.filterCheckbox} type="checkbox" id="all"/>
+                        <input className={styles.filterCheckbox} type="checkbox" id="all" checked={checkBoxChecked} onChange={e =>filterMake(e,e.target.getAttribute("id")?.toString())} />
                         <label htmlFor="all">Все</label>
                     </div>
                     <div className={styles.filterRow}>
-                        <input className={styles.filterCheckbox} type="checkbox" id="without"/>
-                        <label htmlFor="without">Без пересадок</label>
+                        <input className={styles.filterCheckbox} type="checkbox" id="withoutStops" checked={checkBoxChecked} onChange={e =>filterMake(e,e.target.getAttribute("id")?.toString())}/>
+                        <label htmlFor="withoutStops">Без пересадок</label>
                     </div>
                     <div className={styles.filterRow}>
-                        <input className={styles.filterCheckbox} type="checkbox" id="one"/>
-                        <label htmlFor="one">1 пересадка</label>
+                        <input className={styles.filterCheckbox} type="checkbox" id="oneStop" checked={checkBoxChecked} onChange={e =>filterMake(e,e.target.getAttribute("id")?.toString())}/>
+                        <label htmlFor="oneStop">1 пересадка</label>
                     </div>
                     <div className={styles.filterRow}>
-                        <input className={styles.filterCheckbox} type="checkbox" id="two"/>
-                        <label htmlFor="two">2 пересадки</label>
+                        <input className={styles.filterCheckbox} type="checkbox" id="twoStops" checked={checkBoxChecked} onChange={e =>filterMake(e,e.target.getAttribute("id")?.toString())}/>
+                        <label htmlFor="twoStops">2 пересадки</label>
                     </div>
                     <div className={styles.filterRow}>
-                        <input className={styles.filterCheckbox} type="checkbox" id="three"/>
-                        <label htmlFor="three">3 пересадки</label>
+                        <input className={styles.filterCheckbox} type="checkbox" id="threeStops" checked={checkBoxChecked} onChange={e =>filterMake(e,e.target.getAttribute("id")?.toString())}/>
+                        <label htmlFor="threeStops">3 пересадки</label>
                     </div>
                 </div>
             </div>
