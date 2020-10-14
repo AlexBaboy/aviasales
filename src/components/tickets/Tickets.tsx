@@ -67,6 +67,33 @@ function Tickets() {
        return hours + " " + minutes
     }
 
+    const getCountStopsText = (countStops:number = 0) => {
+
+        let countText:String;
+        let num = countStops % 100;
+
+        if (num >= 11 && num <= 19)
+            countText = 'раз';
+        else {
+            switch (num % 10) {
+                case 0:
+                    countText = 'без пересадок'
+                    break;
+                case 1:
+                    countText = countStops + ' пересадка'
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    countText = countStops + ' пересадки'
+                    break;
+                default:
+                    countText = 'без пересадок'
+            }
+        }
+        return countText;
+    }
+
     return (
         <div>
             <div className={styles.filter}>
@@ -108,7 +135,7 @@ function Tickets() {
                 </div>
                 {tickets ?
                     tickets.map((ticket) =>
-                        <div className={styles.ticket} key={ticket.price}>
+                        <div className={styles.ticket} key={ticket.price+ticket.carrier+ticket.segments[0].date}>
 
                             <div className={styles.ticketHeader}>
                                 <div className={styles.ticketPrice}> {ticket.price.toLocaleString()} Р</div>
@@ -126,7 +153,7 @@ function Tickets() {
                                 </div>
                             </div>
                             {ticket.segments.map((segment:any) =>
-                                <div className={styles.segmentRow}>
+                                <div className={styles.segmentRow} key={segment.date}>
                                     <div className={styles.segmentRowBlock}>
                                         <div className={styles.destination}>
                                             {segment.origin} - {segment.destination}
@@ -145,7 +172,7 @@ function Tickets() {
                                     </div>
                                     <div className={styles.segmentRowBlock}>
                                         <div className={styles.destination}>
-                                            пересадки
+                                            {getCountStopsText(segment?.stops.length)}
                                         </div>
                                         <div className={styles.segmentTime}>
                                             {segment?.stops.join()}
