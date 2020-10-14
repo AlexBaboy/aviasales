@@ -101,7 +101,7 @@ function Tickets() {
                         <div className={styles.ticket} key={ticket.price}>
 
                             <div className={styles.ticketHeader}>
-                                <div className={styles.ticketPrice}> {ticket.price} Р</div>
+                                <div className={styles.ticketPrice}> {ticket.price.toLocaleString()} Р</div>
 
                                 <div className={styles.ticketLogo}>
                                     <svg width="110" height="36" viewBox="0 0 110 36" fill="none" >
