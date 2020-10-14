@@ -57,6 +57,16 @@ function Tickets() {
         return dateFromStr + " " + timeFromStr
     }
 
+    const getDurationInFormat = (minutesCount:number) => {
+
+        if(!minutesCount)   return ""
+
+        let hours = Math.floor(minutesCount/60) + "ч";
+        let minutes = Math.floor((minutesCount/60*60)/100) + "м"
+
+       return hours + " " + minutes
+    }
+
     return (
         <div>
             <div className={styles.filter}>
@@ -130,7 +140,7 @@ function Tickets() {
                                             в пути
                                         </div>
                                         <div className={styles.segmentTime}>
-                                            {segment.duration}
+                                            {getDurationInFormat(segment.duration)}
                                         </div>
                                     </div>
                                     <div className={styles.segmentRowBlock}>
