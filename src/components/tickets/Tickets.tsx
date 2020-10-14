@@ -37,6 +37,26 @@ function Tickets() {
 
     }
 
+    const getTimeTo = (dateFrom:Date, durationInMinutes:number) => {
+
+        if(!dateFrom || !durationInMinutes)    return ""
+
+        let timeFromMillis = dateFrom.getTime();
+        let timePeriodMillis : number = durationInMinutes * 60 * 1000
+
+        let dateTo = new Date();
+        dateTo.setTime(timeFromMillis + timePeriodMillis)
+
+        return moment(dateTo).format('DD.MM HH:mm')
+    }
+
+    const getDateFromInFormat = (dateFrom:Date) => {
+        if(!dateFrom)   return "";
+        let timeFromStr = dateFrom.toString().substring(11,16)
+        let dateFromStr = dateFrom.toString().substring(0,10).split("-").reverse().join(".").substring(0,5)
+        return dateFromStr + " " + timeFromStr
+    }
+
     return (
         <div>
             <div className={styles.filter}>
@@ -101,8 +121,24 @@ function Tickets() {
                                         <div className={styles.destination}>
                                             {segment.origin} - {segment.destination}
                                         </div>
+                                        <div className={styles.segmentTimeWithDate}>
+                                            {getDateFromInFormat(segment.date)} - {getTimeTo(new Date(segment.date), segment.duration)}
+                                        </div>
+                                    </div>
+                                    <div className={styles.segmentRowBlock}>
+                                        <div className={styles.destination}>
+                                            в пути
+                                        </div>
                                         <div className={styles.segmentTime}>
-                                            {segment.date} - {segment.duration}
+                                            {segment.duration}
+                                        </div>
+                                    </div>
+                                    <div className={styles.segmentRowBlock}>
+                                        <div className={styles.destination}>
+                                            пересадки
+                                        </div>
+                                        <div className={styles.segmentTime}>
+                                            {segment?.stops.join()}
                                         </div>
                                     </div>
                                 </div>
