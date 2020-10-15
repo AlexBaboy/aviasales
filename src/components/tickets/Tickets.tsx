@@ -15,6 +15,8 @@ export interface TestInputProps extends React.HTMLAttributes<HTMLInputElement> {
     className?: string;
 }
 
+let TICKETS:any[] = []
+
 function Tickets() {
 
     const [tickets, setTickets] = useState<any[]>([])
@@ -41,8 +43,12 @@ function Tickets() {
 
         axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
             .then(res=> {
-                if( res?.data?.tickets )
+                if( res?.data?.tickets ) {
+                    TICKETS = res?.data?.tickets
                     setTickets( res?.data?.tickets )
+                    console.log("49 TICKETS")
+                    console.log(TICKETS)
+                }
                 setLoading(false)
             })
             .catch( (error:Error) => {
@@ -111,7 +117,6 @@ function Tickets() {
     }
 
     const filterMake = ( element: React.ChangeEvent<HTMLInputElement>, type:String = "all" ) => {
-
         const checked = element.target.checked
         const val = type
 
@@ -151,25 +156,22 @@ function Tickets() {
         console.log("filterType = " + filterType)
         console.log("stopsCount = " + stopsCount)
 
-        if(stopsCount) {
-
-            const arr = [{"client_id":"AAA1","contracts":[{"contract_id":"CON1-AAA1","revisions":[{"date":"2018-07-30","status":"First Sign"}]}]}];
-            const res = arr.filter(client => client.contracts.some(contract => contract.revisions.some(revision => revision.status === 'First Sign')));
-
-            console.log(res);
-
-            let filteredTickets = tickets.filter(
-                ticket => ticket.segments.some
-                    ( (segment: { stops: string | any[]; }) => segment.stops.length == stopsCount))
+        if( filterType != 'all') {
+            console.log("160 TICKETS")
+            console.log(TICKETS)
+            let filteredTickets = TICKETS.filter(
+                                            ticket => ticket.segments.some
+                                                ( (segment: { stops: [] }) => segment.stops.length === stopsCount))
 
             setTickets(filteredTickets)
+            console.log("166 tickets")
             console.log(tickets)
 
         } else {
-            getTickets(searchId)
+            setTickets(TICKETS)
+            console.log("171 tickets")
             console.log(tickets)
         }
-
     }
 
     return (
