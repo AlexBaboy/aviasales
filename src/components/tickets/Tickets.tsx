@@ -3,6 +3,7 @@ import axios from "axios"
 
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
+import {ticketDetailProps} from "../ticket/TicketDetail";
 
 let TICKETS:any[] = []
 
@@ -145,7 +146,7 @@ function Tickets() {
                     </div>
                     {tickets ?
                         tickets.map((ticket) =>
-                            <TicketDetail ticket:tickedDetailProps={ticket} />
+                            <TicketDetail  ticket<ticketDetailProps>={ticket}/>
                         )
                         :
                         <div>Билетов нет</div>
@@ -154,7 +155,6 @@ function Tickets() {
             }
         </div>
     )
-
 }
 
 export default Tickets
