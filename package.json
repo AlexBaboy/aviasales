@@ -10,13 +10,16 @@
     "@types/node": "^12.12.67",
     "@types/react": "^16.9.52",
     "@types/react-dom": "^16.9.8",
+    "axios": "latest",
+    "http-proxy-middleware": "^1.0.6",
+    "moment": "latest",
+    "node-fetch": "^2.6.1",
+    "node-sass": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
-    "typescript": "^3.7.5",
     "sass": "latest",
-    "axios": "latest",
-    "moment": "latest"
+    "typescript": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

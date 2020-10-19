@@ -2,40 +2,7 @@ import React, {useEffect, useState} from 'react'
 import moment from 'moment'
 import styles from './TicketDetail.module.sass'
 
-export interface ticketDetailProps {
-    // Цена в рублях
-    price: number
-    // Код авиакомпании (iata)
-    carrier: string
-    // Массив перелётов.
-    // В тестовом задании это всегда поиск "туда-обратно" значит состоит из двух элементов
-    segments: [
-        {
-            // Код города (iata)
-            origin: string
-            // Код города (iata)
-            destination: string
-            // Дата и время вылета туда
-            date: string
-            // Массив кодов (iata) городов с пересадками
-            stops: string[]
-            // Общее время перелёта в минутах
-            duration: number
-        },
-        {
-            // Код города (iata)
-            origin: string
-            // Код города (iata)
-            destination: string
-            // Дата и время вылета обратно
-            date: string
-            // Массив кодов (iata) городов с пересадками
-            stops: string[]
-            // Общее время перелёта в минутах
-            duration: number
-        }
-    ]
-}
+
 
 function TicketDetail (props:ticketDetailProps) {
 
@@ -113,10 +80,10 @@ function TicketDetail (props:ticketDetailProps) {
 
     return (
         <>
-            <div className={styles.ticket} key={price+carrier+segments[0].date}>
+            <div className={styles.ticket} key={props.price + props.carrier + props.segments[0].date}>
 
             <div className={styles.ticketHeader}>
-            <div className={styles.ticketPrice}> {price.toLocaleString()} Р</div>
+            <div className={styles.ticketPrice}> {props.price.toLocaleString()} Р</div>
 
             <div className={styles.ticketLogo}>
                 <svg width="110" height="36" viewBox="0 0 110 36" fill="none" >
@@ -130,7 +97,7 @@ function TicketDetail (props:ticketDetailProps) {
                 </svg>
             </div>
                 </div>
-                {segments.map((segment:any) =>
+                {props.segments.map((segment:any) =>
                     <div className={styles.segmentRow} key={segment.date}>
                     <div className={styles.segmentRowBlock}>
                     <div className={styles.destination}>
@@ -151,20 +118,17 @@ function TicketDetail (props:ticketDetailProps) {
                         <div className={styles.segmentRowBlock}>
                     <div className={styles.destination}>
                         {getCountStopsText(segment?.stops.length)}
-                        </div>
-                        <div className={styles.segmentTime}>
+                    </div>
+                    <div className={styles.segmentTime}>
                         {segment?.stops.join()}
-                        </div>
+                    </div>
                         </div>
                         </div>
                     )}
 
                 </div>
-                </div>
+            </>
         )
-
-)
-
 }
 
 export default TicketDetail
