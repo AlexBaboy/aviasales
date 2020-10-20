@@ -180,7 +180,7 @@ function Tickets() {
                     </div>
                     {tickets ?
                         tickets.map((ticket:ticketDetailProps) =>
-                            <TicketDetail ticketDetail={ticket}/>
+                            <TicketDetail {...ticket} />
                         )
                         :
                         <div>Билетов нет</div>
