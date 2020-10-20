@@ -179,7 +179,7 @@ function Tickets() {
                         </div>
                     </div>
                     {tickets ?
-                        tickets.map((ticket) =>
+                        tickets.map((ticket:ticketDetailProps) =>
                             <TicketDetail ticket={ticket} />
                         )
                         :
