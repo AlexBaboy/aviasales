@@ -4,7 +4,7 @@ import axios from "axios"
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 
-let TICKETS:any[] = []
+let TICKETS:[] = []
 
 export interface ticketDetailProps {
     // Цена в рублях
@@ -43,7 +43,7 @@ export interface ticketDetailProps {
 
 function Tickets() {
 
-    const [tickets, setTickets] = useState<any[]>([])
+    const [tickets, setTickets] = useState([])
     const [searchId, setSearchId] = useState('')
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
@@ -72,6 +72,12 @@ function Tickets() {
                     setTickets( res?.data?.tickets )
                     console.log("49 TICKETS")
                     console.log(TICKETS)
+
+                    tickets.map(ticket=> {
+                            console.log("77 ticket")
+                            console.log(ticket)
+                        }
+                    )
                 }
                 setLoading(false)
             })
@@ -126,7 +132,7 @@ function Tickets() {
             console.log("160 TICKETS")
             console.log(TICKETS)
             let filteredTickets = TICKETS.filter(
-                                            ticket => ticket.segments.some
+                                                ticket => ticket.segments.some
                                                 ( (segment: { stops: [] }) => segment.stops.length === stopsCount))
 
             setTickets(filteredTickets)
@@ -180,7 +186,7 @@ function Tickets() {
                     </div>
                     {tickets ?
                         tickets.map((ticket:ticketDetailProps) =>
-                            <TicketDetail {...ticket} />
+                            <TicketDetail {...ticket} key={Math.random()}/>
                         )
                         :
                         <div>Билетов нет</div>
