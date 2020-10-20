@@ -13,14 +13,6 @@ function TicketDetail (props:ticketDetailProps) {
     const [filter, setFilterValue] = useState()
     const [checkBoxChecked, setCheckBoxChecked] = useState(false)
 
-    const {
-        price: number,
-        // Код авиакомпании (iata)
-        carrier: string,
-        // элементы
-        segments: []
-    } = props;
-
     const getTimeTo = (dateFrom:Date, durationInMinutes:number) => {
 
         if(!dateFrom || !durationInMinutes)    return ""
