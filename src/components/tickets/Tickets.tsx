@@ -4,7 +4,7 @@ import axios from "axios"
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 
-let TICKETS:[] = []
+
 
 export interface ticketDetailProps {
     // Цена в рублях
@@ -40,10 +40,10 @@ export interface ticketDetailProps {
         }
     ]
 }
-
+let TICKETS:ticketDetailProps[] = []
 function Tickets() {
 
-    const [tickets, setTickets] = useState([])
+    const [tickets, setTickets] = useState(TICKETS)
     const [searchId, setSearchId] = useState('')
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
@@ -72,12 +72,6 @@ function Tickets() {
                     setTickets( res?.data?.tickets )
                     console.log("49 TICKETS")
                     console.log(TICKETS)
-
-                    tickets.map(ticket=> {
-                            console.log("77 ticket")
-                            console.log(ticket)
-                        }
-                    )
                 }
                 setLoading(false)
             })
@@ -131,9 +125,11 @@ function Tickets() {
         if( filterType != 'all') {
             console.log("160 TICKETS")
             console.log(TICKETS)
+            // @ts-ignore
             let filteredTickets = TICKETS.filter(
                                                 ticket => ticket.segments.some
-                                                ( (segment: { stops: [] }) => segment.stops.length === stopsCount))
+                                                ( (segment: { stops: string[] }) => segment.stops.length === stopsCount)
+                                                )
 
             setTickets(filteredTickets)
         } else {
