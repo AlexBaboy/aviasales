@@ -4,13 +4,6 @@ import styles from './TicketDetail.module.sass'
 
 function TicketDetail (props) {
 
-    const [tickets, setTickets] = useState([])
-    const [searchId, setSearchId] = useState('')
-    const [exception, setException] = useState('')
-    const [loading, setLoading] = useState(true)
-    const [filter, setFilterValue] = useState()
-    const [checkBoxChecked, setCheckBoxChecked] = useState(false)
-
     const getTimeTo = (dateFrom, durationInMinutes) => {
 
         if(!dateFrom || !durationInMinutes)    return ""
