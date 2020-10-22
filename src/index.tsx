@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import Tickets from './components/tickets';
+import Tickets from './components/ticketList';
 
 ReactDOM.render(
   <Tickets/>    ,

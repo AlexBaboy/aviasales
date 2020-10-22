@@ -4,46 +4,10 @@ import axios from "axios"
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 
+let TICKETS = []
+function TicketsList() {
 
-
-export interface ticketDetailProps {
-    // Цена в рублях
-    price: number
-    // Код авиакомпании (iata)
-    carrier: string
-    // Массив перелётов.
-    // В тестовом задании это всегда поиск "туда-обратно" значит состоит из двух элементов
-    segments: [
-        {
-            // Код города (iata)
-            origin: string
-            // Код города (iata)
-            destination: string
-            // Дата и время вылета туда
-            date: string
-            // Массив кодов (iata) городов с пересадками
-            stops: string[]
-            // Общее время перелёта в минутах
-            duration: number
-        },
-        {
-            // Код города (iata)
-            origin: string
-            // Код города (iata)
-            destination: string
-            // Дата и время вылета обратно
-            date: string
-            // Массив кодов (iata) городов с пересадками
-            stops: string[]
-            // Общее время перелёта в минутах
-            duration: number
-        }
-    ]
-}
-let TICKETS:ticketDetailProps[] = []
-function Tickets() {
-
-    const [tickets, setTickets] = useState(TICKETS)
+    const [tickets, setTickets] = useState([])
     const [searchId, setSearchId] = useState('')
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
@@ -55,12 +19,12 @@ function Tickets() {
             .then(res => {
                 getTickets(res?.data?.searchId)
             })
-            .catch( (error:any) => {
+            .catch( (error) => {
                 console.log(error)
             })
     },[])
 
-    const getTickets = (searchIdNum:string) => {
+    const getTickets = (searchIdNum) => {
 
         if(!searchIdNum)   return false
         setSearchId(searchIdNum)
@@ -75,25 +39,25 @@ function Tickets() {
                 }
                 setLoading(false)
             })
-            .catch( (error:Error) => {
+            .catch( (error) => {
                 console.log(error)
                 setException(error.message)
                 setTickets([])
             })
     }
 
-    const filterMake = ( element: React.ChangeEvent<HTMLInputElement>, type:String = "all" ) => {
+    const filterMake = ( element, type = "all" ) => {
         const checked = element.target.checked
         const val = type
 
         if(checked)
             console.log()
-            //setCheckBoxChecked(false)
+        //setCheckBoxChecked(false)
         else
             console.log("unchecked!")
 
-        let filterType:String
-        let stopsCount:number = 0
+        let filterType
+        let stopsCount = 0
 
         switch (type) {
             case "all":
@@ -127,9 +91,9 @@ function Tickets() {
             console.log(TICKETS)
             // @ts-ignore
             let filteredTickets = TICKETS.filter(
-                                                ticket => ticket.segments.some
-                                                ( (segment: { stops: string[] }) => segment.stops.length === stopsCount)
-                                                )
+                ticket => ticket.segments.some
+                ( (segment) => segment.stops.length === stopsCount)
+            )
 
             setTickets(filteredTickets)
         } else {
@@ -181,7 +145,7 @@ function Tickets() {
                         </div>
                     </div>
                     {tickets ?
-                        tickets.map((ticket:ticketDetailProps) =>
+                        tickets.map((ticket) =>
                             <TicketDetail {...ticket} key={Math.random()}/>
                         )
                         :
@@ -193,4 +157,4 @@ function Tickets() {
     )
 }
 
-export default Tickets
+export default TicketsList
