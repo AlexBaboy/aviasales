@@ -34,7 +34,17 @@ function TicketsList(props) {
             .then(res=> {
                 if( res?.data?.tickets ) {
                     TICKETS = res?.data?.tickets
-                    setTickets( res?.data?.tickets )
+                    //setTickets( res?.data?.tickets )
+
+                    // сразу сортируем цена - по возрастанию!!!
+                    let sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
+                    setTickets(sortedTickets)
+
+                    // сразу сортируем длительность - по возрастанию!!!
+                    /*let sortedTicketsLong = TICKETS.sort((a,b) => a.segments.duration - b.segments.duration);
+                    setTickets(sortedTicketsLong)*/
+
+
                 }
                 setLoading(false)
             })
@@ -45,7 +55,15 @@ function TicketsList(props) {
     }
 
     const makefilterTickets = (filteredTickets) => {
-        setTickets(filteredTickets)
+        //setTickets(filteredTickets)
+
+        // сотировка по цене - по возрастанию !!!
+        let sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
+        setTickets(sortedTickets)
+
+        // сортировка по внутреннему массиву - поле продолжительность !!!
+        /*let sortedTicketsLong = TICKETS.sort((a,b) => a.segments.sort(seg1, seg2) => seg1.duration - seg2.duration);
+        setTickets(sortedTicketsLong)*/
     }
 
     return (
