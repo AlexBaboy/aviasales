@@ -50,7 +50,7 @@ function FilterLeft( props ) {
         if( filterType != 'all') {
 
             let filteredTickets = ticketsIntitial.filter(
-                ticket => ticket.segments.some
+                ticket => ticket.segments.every
                 ( segment => segment.stops.length === stopsCount)
             )
 
