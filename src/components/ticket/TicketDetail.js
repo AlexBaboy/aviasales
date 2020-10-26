@@ -4,34 +4,14 @@ import styles from './TicketDetail.module.sass'
 
 function TicketDetail (props) {
 
-    const getTimeTo = (dateFrom, durationInMinutes) => {
-
-        if(!dateFrom || !durationInMinutes)    return ""
-
-        let timeFromMillis = dateFrom.getTime();
-        let timePeriodMillis = durationInMinutes * 60 * 1000
-
-        let dateTo = new Date();
-        dateTo.setTime(timeFromMillis + timePeriodMillis)
-
-        return moment(dateTo).format('DD.MM HH:mm')
-    }
-
-    const getDateFromInFormat = (dateFrom) => {
-        if(!dateFrom)   return "";
-        let timeFromStr = dateFrom.toString().substring(11,16)
-        let dateFromStr = dateFrom.toString().substring(0,10).split("-").reverse().join(".").substring(0,5)
-        return dateFromStr + " " + timeFromStr
-    }
-
     const getDurationInFormat = (minutesCount) => {
 
         if(!minutesCount)   return ""
 
-        let hours = Math.floor(minutesCount/60) + "ч";
-        let minutes = Math.floor((minutesCount/60*60)/100) + "м"
+        let hours = Math.trunc(minutesCount/60);
+        let minutes = minutesCount % 60;
 
-        return hours + " " + minutes
+        return hours + "ч " + minutes + "м"
     }
 
     const getCountStopsText = (countStops = 0) => {
@@ -88,7 +68,8 @@ function TicketDetail (props) {
                                     {segment.origin} - {segment.destination}
                                 </div>
                                 <div className={styles.segmentTimeWithDate}>
-                                    {getDateFromInFormat(segment.date)} - {getTimeTo(new Date(segment.date), segment.duration)}
+                                    {moment(segment.date).format('DD.MM HH:mm')} -
+                                    {" " + moment(segment.date).add(segment.duration, 'minutes').format('DD.MM HH:mm')}
                                 </div>
                             </div>
                             <div className={styles.segmentRowBlock}>
