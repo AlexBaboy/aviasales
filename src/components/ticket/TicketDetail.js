@@ -1,45 +1,8 @@
-import React, {useEffect, useState} from 'react'
-import moment from 'moment'
+import React from 'react'
 import styles from './TicketDetail.module.sass'
+import Segment from "../segment";
 
 function TicketDetail (props) {
-
-    const getDurationInFormat = (minutesCount) => {
-
-        if(!minutesCount)   return ""
-
-        let hours = Math.trunc(minutesCount/60);
-        let minutes = minutesCount % 60;
-
-        return hours + "ч " + minutes + "м"
-    }
-
-    const getCountStopsText = (countStops = 0) => {
-
-        let countText;
-        let num = countStops % 100;
-
-        if (num >= 11 && num <= 19)
-            countText = 'раз';
-        else {
-            switch (num % 10) {
-                case 0:
-                    countText = 'без пересадок'
-                    break;
-                case 1:
-                    countText = countStops + ' пересадка'
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    countText = countStops + ' пересадки'
-                    break;
-                default:
-                    countText = 'без пересадок'
-            }
-        }
-        return countText;
-    }
 
     return (
         <>
@@ -62,33 +25,7 @@ function TicketDetail (props) {
                 </div>
                 { props && props.segments ?
                     props.segments.map((segment) =>
-                        <div className={styles.segmentRow} key={segment.date}>
-                            <div className={styles.segmentRowBlock}>
-                                <div className={styles.destination}>
-                                    {segment.origin} - {segment.destination}
-                                </div>
-                                <div className={styles.segmentTimeWithDate}>
-                                    {moment(segment.date).format('DD.MM HH:mm')} -
-                                    {" " + moment(segment.date).add(segment.duration, 'minutes').format('DD.MM HH:mm')}
-                                </div>
-                            </div>
-                            <div className={styles.segmentRowBlock}>
-                                <div className={styles.destination}>
-                                    в пути
-                                </div>
-                                <div className={styles.segmentTime}>
-                                    {getDurationInFormat(segment.duration)}
-                                </div>
-                            </div>
-                            <div className={styles.segmentRowBlock}>
-                                <div className={styles.destination}>
-                                    {getCountStopsText(segment?.stops.length)}
-                                </div>
-                                <div className={styles.segmentTime}>
-                                    {segment?.stops.join()}
-                                </div>
-                            </div>
-                        </div>
+                        <Segment key={segment.date + segment.carrier} {...segment} />
                     ): ""}
             </div>
         </>

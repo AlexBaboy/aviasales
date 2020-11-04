@@ -36,14 +36,26 @@ function TicketsList(props) {
                     TICKETS = res?.data?.tickets
                     //setTickets( res?.data?.tickets )
 
-                    // сразу сортируем цена - по возрастанию!!!
+                    // сразу сортируем по полю цена - по возрастанию!!!
                     let sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
                     setTickets(sortedTickets)
 
-                    // сразу сортируем длительность - по возрастанию!!!
-                    /*let sortedTicketsLong = TICKETS.sort((a,b) => a.segments.duration - b.segments.duration);
+                    // сразу сортируем по полю длительность - по возрастанию!!!
+                    /*let sortedTicketsLong = TICKETS.sort((a,b) =>
+                        (a.segments.map((sum, a) => sum + Math.max(...a), 0)) - (b.segments.map((sum, b) => sum + Math.max(...b))))
                     setTickets(sortedTicketsLong)*/
 
+                    let arr = TICKETS
+
+                    console.log("50")
+                    //let sumDuration = arr.map(segments => segments.map(sgmnt => console.log(sgmnt.duration)))
+
+                    /*arr.forEach(element =>
+                        element.segments.forEach(sgmnt => console.log(sgmnt.duration + Math.max(sgmnt.duration), sgmnt.duration))
+                    )*/
+
+                    /*console.log("sumDuration")
+                    console.log(sumDuration)*/
 
                 }
                 setLoading(false)
@@ -67,7 +79,7 @@ function TicketsList(props) {
     }
 
     return (
-        <div>
+        <div className={styles.ticketsContainerRoot}>
 
             <FilterLeft ticketsIntitial={TICKETS} makefilterTickets={makefilterTickets} />
 
