@@ -25,7 +25,7 @@ function FilterLeft( props ) {
                     <FilterRow id={"withoutStops"} text={"Без пересадок"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial}/>
                     <FilterRow id={"oneStop"} text={"1 пересадка"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial} />
                     <FilterRow id={"twoStops"} text={"2 пересадки"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial} />
-                    <FilterRow id={"threeStops"} text={"3 пересадки"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial} />
+                    <FilterRow id={"threeStops"} text={"3 пересадки"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial}/>
                 </div>
             </div>
         </>
