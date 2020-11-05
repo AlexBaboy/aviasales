@@ -9,14 +9,17 @@ function FilterRow(props ) {
             ticketsIntitial,
         } = props
 
-    const filterMake = ( element, type = "all" ) => {
+    const [idChecked, setIdChecked] = useState("all")
 
-        const checked = element.target.checked
-        const val = type
+    const filterMake = ( event ) => {
+
+        const checked = event.target.checked
+        const type = event.target.getAttribute("id")
+
+        console.log("19 checked = " + checked)
 
         if(checked)
-            console.log()
-        //setCheckBoxChecked(false)
+            setIdChecked(type)
         else
             console.log("unchecked!")
 
@@ -63,14 +66,24 @@ function FilterRow(props ) {
         }
     }
 
-    const checkBoxChecked =() => {
+    const checkBoxChecked =( event, id ) => {
 
+        console.log("71 id = " + id)
+        console.log("71 idChecked = " + idChecked)
+
+        if(id != idChecked)
+            return false
+        /*else
+            if (event.target.getAttribute("checked") == true)
+                return false
+            else
+                return true*/
     }
 
     return (
         <>
             <div className={styles.filterRow}>
-                <input className={styles.filterCheckbox} type="checkbox" id={id} checked={checkBoxChecked} onChange={e =>filterMake(e,e.target.getAttribute("id")?.toString())} />
+                <input className={styles.filterCheckbox} type="checkbox" id={id} checked={e => checkBoxChecked(e,id)} onChange={e =>filterMake(e)} />
                 <div className={styles.filterCheckBoxLabelDiv}>
                     <label htmlFor={id}>{text}</label>
                 </div>

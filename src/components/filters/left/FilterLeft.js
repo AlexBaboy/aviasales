@@ -8,12 +8,6 @@ function FilterLeft( props ) {
             makefilterTickets
         } = props
 
-
-
-    const checkBoxChecked =() => {
-
-    }
-
     return (
         <>
             <div className={styles.filter}>
