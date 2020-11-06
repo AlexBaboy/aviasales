@@ -88,24 +88,23 @@ function TicketsList(props) {
 
             <FilterLeft ticketsIntitial={TICKETS} makefilterTickets={makefilterTickets} />
 
-
-                    <div className={styles.ticketsContainer}>
-                        <div className={styles.ticketTypeCheckers}>
-                            <div className={styles.ticketTypeCheckerChecked}>
-                                <div className={styles.ticketTypeCheckerText}>Самый дешевый</div>
-                            </div>
-                            <div className={styles.ticketTypeChecker}>
-                                <div className={styles.ticketTypeCheckerText}>Самый быстрый</div>
-                            </div>
+                <div className={styles.ticketsContainer}>
+                    <div className={styles.ticketTypeCheckers}>
+                        <div className={styles.ticketTypeCheckerChecked}>
+                            <div className={styles.ticketTypeCheckerText}>Самый дешевый</div>
                         </div>
-                        {tickets ?
-                            tickets.map((ticket) =>
-                                <TicketDetail {...ticket} key={Math.random()}/>
-                            )
-                            :
-                            <div>Билетов нет</div>
-                        }
+                        <div className={styles.ticketTypeChecker}>
+                            <div className={styles.ticketTypeCheckerText}>Самый быстрый</div>
+                        </div>
                     </div>
+                    {tickets ?
+                        tickets.map((ticket) =>
+                            <TicketDetail {...ticket} key={Math.random()}/>
+                        )
+                        :
+                        <div>Билетов нет</div>
+                    }
+                </div>
         </div>
     )
 }

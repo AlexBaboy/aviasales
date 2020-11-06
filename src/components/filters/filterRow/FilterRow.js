@@ -22,6 +22,7 @@ function FilterRow(props ) {
             setIdChecked(type)
         else
             console.log("unchecked!")
+            setIdChecked()
 
         let filterType
         let stopsCount = 0
@@ -66,24 +67,22 @@ function FilterRow(props ) {
         }
     }
 
-    const checkBoxChecked =( event, id ) => {
+    useEffect( ()=> {
 
-        console.log("71 id = " + id)
-        console.log("71 idChecked = " + idChecked)
+    })
+
+    const checkBoxChecked =( id ) => {
 
         if(id != idChecked)
             return false
-        /*else
-            if (event.target.getAttribute("checked") == true)
-                return false
-            else
-                return true*/
+        else
+            return true
     }
 
     return (
         <>
             <div className={styles.filterRow}>
-                <input className={styles.filterCheckbox} type="checkbox" id={id} checked={e => checkBoxChecked(e,id)} onChange={e =>filterMake(e)} />
+                <input className={styles.filterCheckbox} type="checkbox" id={id} checked={checkBoxChecked(id)} onChange={e =>filterMake(e)} />
                 <div className={styles.filterCheckBoxLabelDiv}>
                     <label htmlFor={id}>{text}</label>
                 </div>
