@@ -10,6 +10,7 @@ function FilterRow(props ) {
         } = props
 
     return (
+
         <>
             <div className={styles.filterRow}>
                 <input className={styles.filterCheckbox} type="checkbox" id={id} checked={checkBoxChecked(id)} onChange={e =>filterMake(e)} />

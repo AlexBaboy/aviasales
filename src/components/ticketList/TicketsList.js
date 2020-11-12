@@ -5,13 +5,13 @@ import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 import FilterLeft from "../filters/left";
 
-let TICKETS = []
 function TicketsList(props) {
 
     const [tickets, setTickets] = useState([])
     const [searchId, setSearchId] = useState('')
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
+    const [ticketsInitial, setTicketsInitial] = useState([])
 
     useEffect( () => {
         setLoading(true)
@@ -33,16 +33,18 @@ function TicketsList(props) {
         axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
             .then(res=> {
                 if( res?.data?.tickets ) {
-                    TICKETS = res?.data?.tickets
-                    //setTickets( res?.data?.tickets )
+                    //TICKETS = res?.data?.tickets
+                    setTicketsInitial(res?.data?.tickets)
 
                     // сразу сортируем по полю цена - по возрастанию!!!
-                    const sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
+                    //const sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
+                    const sortedTickets = ticketsInitial.sort((a,b) => a.price - b.price);
                     setTickets(sortedTickets)
 
-                    const arr = TICKETS
 
-                    console.log("50")
+
+                    console.log("ticketsInitial")
+                    console.log(ticketsInitial)
                 }
                 setLoading(false)
             })
@@ -72,7 +74,7 @@ function TicketsList(props) {
 
         <div className={styles.ticketsContainerRoot}>
 
-            <FilterLeft ticketsIntitial={TICKETS} makefilterTickets={makefilterTickets} />
+            <FilterLeft ticketsIntitial={ticketsInitial} makefilterTickets={makefilterTickets} />
 
                 <div className={styles.ticketsContainer}>
                     <div className={styles.ticketTypeCheckers}>
