@@ -18,13 +18,10 @@ function FilterLeft( props ) {
         console.log("19 checked = " + checked)
         console.log("19 type = " + type)
 
-        //checkBoxChecked(type)
-
         if(checked)
             setIdChecked(type)
         else
             console.log("unchecked!")
-        setIdChecked()
 
         let filterType
         let stopsCount = 0
