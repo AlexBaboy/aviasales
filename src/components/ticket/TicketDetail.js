@@ -32,4 +32,4 @@ function TicketDetail (props) {
     )
 }
 
-export default TicketDetail
+export default React.memo(TicketDetail)

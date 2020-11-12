@@ -40,23 +40,9 @@ function TicketsList(props) {
                     const sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
                     setTickets(sortedTickets)
 
-                    // сразу сортируем по полю длительность - по возрастанию!!!
-                    /*let sortedTicketsLong = TICKETS.sort((a,b) =>
-                        (a.segments.map((sum, a) => sum + Math.max(...a), 0)) - (b.segments.map((sum, b) => sum + Math.max(...b))))
-                    setTickets(sortedTicketsLong)*/
-
                     const arr = TICKETS
 
                     console.log("50")
-                    //let sumDuration = arr.map(segments => segments.map(sgmnt => console.log(sgmnt.duration)))
-
-                    /*arr.forEach(element =>
-                        element.segments.forEach(sgmnt => console.log(sgmnt.duration + Math.max(sgmnt.duration), sgmnt.duration))
-                    )*/
-
-                    /*console.log("sumDuration")
-                    console.log(sumDuration)*/
-
                 }
                 setLoading(false)
             })

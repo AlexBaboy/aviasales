@@ -21,4 +21,4 @@ function FilterRow(props ) {
     )
 }
 
-export default FilterRow
+export default React.memo(FilterRow)

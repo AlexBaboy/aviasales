@@ -50,8 +50,6 @@ function FilterLeft( props ) {
             default:
                 filterType = 'all'
         }
-        //console.log("filterType = " + filterType)
-        //console.log("stopsCount = " + stopsCount)
 
         if( filterType != 'all') {
 
