@@ -37,7 +37,7 @@ function TicketsList(props) {
                     //setTickets( res?.data?.tickets )
 
                     // сразу сортируем по полю цена - по возрастанию!!!
-                    let sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
+                    const sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
                     setTickets(sortedTickets)
 
                     // сразу сортируем по полю длительность - по возрастанию!!!
@@ -45,7 +45,7 @@ function TicketsList(props) {
                         (a.segments.map((sum, a) => sum + Math.max(...a), 0)) - (b.segments.map((sum, b) => sum + Math.max(...b))))
                     setTickets(sortedTicketsLong)*/
 
-                    let arr = TICKETS
+                    const arr = TICKETS
 
                     console.log("50")
                     //let sumDuration = arr.map(segments => segments.map(sgmnt => console.log(sgmnt.duration)))
@@ -71,7 +71,7 @@ function TicketsList(props) {
         //setTickets(filteredTickets)
 
         // сотировка по цене - по возрастанию !!!
-        let sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
+        const sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
         setTickets(sortedTickets)
 
         // сортировка по внутреннему массиву - поле продолжительность !!!
@@ -99,7 +99,11 @@ function TicketsList(props) {
                     </div>
                     {tickets ?
                         tickets.map((ticket) =>
-                            <TicketDetail {...ticket} key={Math.random()}/>
+                            <TicketDetail {...ticket} key={
+                                                            ticket.segments[0].date +
+                                                            ticket.segments[0].destination +
+                                                            ticket.segments[0].duration +
+                                                            ticket.segments[0].origin } />
                         )
                         :
                         <div>Билетов нет</div>

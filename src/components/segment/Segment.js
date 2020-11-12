@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react'
 import moment from 'moment'
 import styles from './Segment.module.sass'
 
-const Segment = React.memo((props) => {
+const Segment = (props) => {
 
     const {
         date,
@@ -16,8 +16,8 @@ const Segment = React.memo((props) => {
 
         if(!minutesCount)   return ""
 
-        let hours = Math.trunc(minutesCount/60);
-        let minutes = minutesCount % 60;
+        const hours = Math.trunc(minutesCount/60);
+        const minutes = minutesCount % 60;
 
         return hours + "ч " + minutes + "м"
     }
@@ -48,10 +48,11 @@ const Segment = React.memo((props) => {
         }
         return countText;
     }
+
     const getDatesFromTo = (dateFrom, durationInMinutes) => {
 
-        let dateFromItog = moment(dateFrom).format('DD.MM HH:mm')
-        let dateTo = moment(dateFromItog).add(durationInMinutes, 'minutes').format('DD.MM HH:mm')
+        const dateFromItog = moment(dateFrom).format('DD.MM HH:mm')
+        const dateTo = moment(dateFromItog).add(durationInMinutes, 'minutes').format('DD.MM HH:mm')
 
         return dateFromItog + " - " + dateTo
     }
@@ -88,6 +89,6 @@ const Segment = React.memo((props) => {
             </div>
         </>
     )
-},[])
+}
 
 export default React.memo(Segment)

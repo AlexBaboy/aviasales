@@ -4,9 +4,85 @@ import FilterRow from "../filterRow";
 
 function FilterLeft( props ) {
 
-    let {   ticketsIntitial,
+    const {   ticketsIntitial,
             makefilterTickets
         } = props
+
+    const [idChecked, setIdChecked] = useState("all")
+
+    const filterMake = ( event ) => {
+
+        const checked = event.target.checked
+        const type = event.target.getAttribute("id")
+
+        console.log("19 checked = " + checked)
+        console.log("19 type = " + type)
+
+        //checkBoxChecked(type)
+
+        if(checked)
+            setIdChecked(type)
+        else
+            console.log("unchecked!")
+        setIdChecked()
+
+        let filterType
+        let stopsCount = 0
+
+        switch (type) {
+            case "all":
+                filterType = 'all'
+                //setCheckBoxChecked(true)
+                break;
+            case "withoutStops":
+                filterType = 'withoutStops'
+                stopsCount = 0
+                break;
+            case "oneStop":
+                filterType = 'oneStop'
+                stopsCount = 1
+                break;
+            case "twoStops":
+                filterType = 'twoStops'
+                stopsCount = 2
+                break;
+            case "threeStops":
+                filterType = 'threeStops'
+                stopsCount = 3
+                break;
+            default:
+                filterType = 'all'
+        }
+        //console.log("filterType = " + filterType)
+        //console.log("stopsCount = " + stopsCount)
+
+        if( filterType != 'all') {
+
+            let filteredTickets = ticketsIntitial.filter(
+                ticket => ticket.segments.every
+                ( segment => segment.stops.length === stopsCount)
+            )
+
+            makefilterTickets(filteredTickets)
+        } else {
+            makefilterTickets(ticketsIntitial)
+        }
+    }
+
+    useEffect( ()=> {
+
+    })
+
+    const checkBoxChecked =( id ) => {
+
+        console.log("77 id = " + id)
+        console.log("77 idChecked = " + idChecked)
+
+        if(id != idChecked)
+            return false
+        else
+            return true
+    }
 
     return (
         <>
@@ -15,11 +91,11 @@ function FilterLeft( props ) {
                     Количество пересадок
                 </div>
                 <div className={styles.filterSetting}>
-                    <FilterRow id={"all"} text={"Все"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial} />
-                    <FilterRow id={"withoutStops"} text={"Без пересадок"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial}/>
-                    <FilterRow id={"oneStop"} text={"1 пересадка"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial} />
-                    <FilterRow id={"twoStops"} text={"2 пересадки"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial} />
-                    <FilterRow id={"threeStops"} text={"3 пересадки"} makefilterTickets={makefilterTickets} ticketsIntitial={ticketsIntitial}/>
+                    <FilterRow id={"all"} text={"Все"} checkBoxChecked={checkBoxChecked} filterMake={filterMake} />
+                    <FilterRow id={"withoutStops"} text={"Без пересадок"}  checkBoxChecked={checkBoxChecked} filterMake={filterMake} />
+                    <FilterRow id={"oneStop"} text={"1 пересадка"}  checkBoxChecked={checkBoxChecked} filterMake={filterMake} />
+                    <FilterRow id={"twoStops"} text={"2 пересадки"}  checkBoxChecked={checkBoxChecked} filterMake={filterMake}  />
+                    <FilterRow id={"threeStops"} text={"3 пересадки"}  checkBoxChecked={checkBoxChecked} filterMake={filterMake} />
                 </div>
             </div>
         </>
