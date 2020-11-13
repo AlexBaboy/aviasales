@@ -32,15 +32,7 @@ function TicketsList(props) {
         axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
             .then(res=> {
                 if( res?.data?.tickets ) {
-
                     setTicketsInitial(res?.data?.tickets)
-
-                    console.log("res?.data?.tickets")
-                    console.log(res?.data?.tickets)
-
-
-                    console.log("ticketsInitial")
-                    console.log(ticketsInitial)
                 }
                 setLoading(false)
             })
