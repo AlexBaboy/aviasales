@@ -70,9 +70,6 @@ function FilterLeft( props ) {
 
     const checkBoxChecked =( id ) => {
 
-        console.log("77 id = " + id)
-        console.log("77 idChecked = " + idChecked)
-
         if(id != idChecked)
             return false
         else

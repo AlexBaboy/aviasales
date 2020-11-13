@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-import Tickets from './components/ticketList';
+import TicketsList from "./components/ticketList";
 
 ReactDOM.render(
-  <Tickets/>    ,
+  <TicketsList/>    ,
   document.getElementById('root')
 );
 

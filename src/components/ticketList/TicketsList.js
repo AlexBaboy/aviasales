@@ -18,7 +18,6 @@ function TicketsList(props) {
         axios.get('https://front-test.beta.aviasales.ru/search')
             .then(res => {
                 getTickets(res?.data?.searchId)
-                setLoading(false)
             })
             .catch( (error) => {
                 console.log(error)
@@ -29,18 +28,15 @@ function TicketsList(props) {
 
         if(!searchIdNum)   return false
         setSearchId(searchIdNum)
-        setLoading(true)
+
         axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
             .then(res=> {
                 if( res?.data?.tickets ) {
-                    //TICKETS = res?.data?.tickets
+
                     setTicketsInitial(res?.data?.tickets)
 
-                    // сразу сортируем по полю цена - по возрастанию!!!
-                    //const sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
-                    const sortedTickets = ticketsInitial.sort((a,b) => a.price - b.price);
-                    setTickets(sortedTickets)
-
+                    console.log("res?.data?.tickets")
+                    console.log(res?.data?.tickets)
 
 
                     console.log("ticketsInitial")
@@ -55,16 +51,19 @@ function TicketsList(props) {
             })
     }
 
+    useEffect( ()=> {
+
+        // сразу сортируем по полю цена - по возрастанию!!!
+        const sortedTickets = ticketsInitial.sort((a,b) => a.price - b.price);
+        setTickets(sortedTickets)
+
+    }, [ticketsInitial])
+
     const makefilterTickets = (filteredTickets) => {
-        //setTickets(filteredTickets)
 
         // сотировка по цене - по возрастанию !!!
         const sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
         setTickets(sortedTickets)
-
-        // сортировка по внутреннему массиву - поле продолжительность !!!
-        /*let sortedTicketsLong = TICKETS.sort((a,b) => a.segments.sort(seg1, seg2) => seg1.duration - seg2.duration);
-        setTickets(sortedTicketsLong)*/
     }
 
     if(exception) return <div className={styles.ticketsContainerRoot}>Нет данных с сервера</div>
@@ -72,32 +71,35 @@ function TicketsList(props) {
 
     return (
 
-        <div className={styles.ticketsContainerRoot}>
+        ticketsInitial ?
 
-            <FilterLeft ticketsIntitial={ticketsInitial} makefilterTickets={makefilterTickets} />
+            <div className={styles.ticketsContainerRoot}>
 
-                <div className={styles.ticketsContainer}>
-                    <div className={styles.ticketTypeCheckers}>
-                        <div className={styles.ticketTypeCheckerChecked}>
-                            <div className={styles.ticketTypeCheckerText}>Самый дешевый</div>
+                <FilterLeft ticketsIntitial={ticketsInitial} makefilterTickets={makefilterTickets} />
+
+                    <div className={styles.ticketsContainer}>
+                        <div className={styles.ticketTypeCheckers}>
+                            <div className={styles.ticketTypeCheckerChecked}>
+                                <div className={styles.ticketTypeCheckerText}>Самый дешевый</div>
+                            </div>
+                            <div className={styles.ticketTypeChecker}>
+                                <div className={styles.ticketTypeCheckerText}>Самый быстрый</div>
+                            </div>
                         </div>
-                        <div className={styles.ticketTypeChecker}>
-                            <div className={styles.ticketTypeCheckerText}>Самый быстрый</div>
-                        </div>
+                        {tickets ?
+                            tickets.map((ticket) =>
+                                <TicketDetail {...ticket} key={
+                                                                ticket.segments[0].date +
+                                                                ticket.segments[0].destination +
+                                                                ticket.segments[0].duration +
+                                                                ticket.segments[0].origin } />
+                            )
+                            :
+                            <div>Билетов нет</div>
+                        }
                     </div>
-                    {tickets ?
-                        tickets.map((ticket) =>
-                            <TicketDetail {...ticket} key={
-                                                            ticket.segments[0].date +
-                                                            ticket.segments[0].destination +
-                                                            ticket.segments[0].duration +
-                                                            ticket.segments[0].origin } />
-                        )
-                        :
-                        <div>Билетов нет</div>
-                    }
-                </div>
-        </div>
+            </div>
+        : ""
     )
 }
 
