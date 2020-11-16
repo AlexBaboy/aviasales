@@ -52,7 +52,8 @@ const Segment = (props) => {
     const getDatesFromTo = (dateFrom, durationInMinutes) => {
 
         const dateFromItog = moment(dateFrom).format('DD.MM HH:mm')
-        const dateTo = moment(dateFromItog).add(durationInMinutes, 'minutes').format('DD.MM HH:mm')
+        const dateTo = moment(dateFromItog, 'DD.MM HH:mm').
+                        add(durationInMinutes, 'minutes').format('DD.MM HH:mm')
 
         return dateFromItog + " - " + dateTo
     }

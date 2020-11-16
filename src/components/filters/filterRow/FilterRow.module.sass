@@ -1,8 +1,12 @@
 .filterRow
-  margin: 0 0 10px 0
+  padding: 8px 0
+
+/*$cursor:  url('./public/img/cursor.svg') 2 2, pointer*/
+$cursor:  pointer
 
 .filterRow:hover
   background-color: #F1FCFF
+  cursor:  $cursor
 
 .filterCheckbox
   border: 1px solid #9ABBCE
@@ -11,10 +15,13 @@
   margin: 0 10px 0 20px
   width: 20px
   height: 20px
-  cursor: pointer
+  cursor:  $cursor
 
 .filterCheckBoxLabelDiv
   display: inline-block
   height: 20px
   vertical-align: top
-  cursor: pointer
+  cursor:  $cursor
+
+.filterCheckBoxLabelDiv label
+  cursor:  $cursor
