@@ -4,6 +4,8 @@ import axios from "axios"
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 import FilterLeft from "../filters/left";
+import {getSearchId} from "../../reduxToolkit/toolkitSlice";
+import {useDispatch} from "react-redux";
 
 function TicketsList(props) {
 
@@ -13,16 +15,36 @@ function TicketsList(props) {
     const [loading, setLoading] = useState(true)
     const [ticketsInitial, setTicketsInitial] = useState([])
 
+    const dispatch = useDispatch()
+
     useEffect( () => {
         setLoading(true)
-        axios.get('https://front-test.beta.aviasales.ru/search')
-            .then(res => {
-                getTickets(res?.data?.searchId)
-            })
-            .catch( (error) => {
+        console.log("19!")
+        dispatch(getSearchIdNum())
+    },[dispatch])
+
+    const getSearchIdNum = () => async dispatch => {
+        debugger
+        try {
+            await axios.get('https://front-test.beta.aviasales.ru/search')
+                .then(res =>
+                    //getTickets(res?.data?.searchId)
+                    dispatch(getSearchId(res?.data?.searchId)))
+            }
+            catch(error) {
                 console.log(error)
-            })
-    },[])
+            }
+        }
+
+    /*export const fetchUsers = () => async dispatch => {
+        +    try {
+            +        await api.get('/users')
+            +            .then((response) => dispatch(usersSuccess(response.data)))
+            +    }
+        +    catch (e) {
+            +        return console.error(e.message);
+            +    }
+        +}*/
 
     const getTickets = (searchIdNum) => {
 
