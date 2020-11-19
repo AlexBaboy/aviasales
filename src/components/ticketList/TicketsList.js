@@ -5,7 +5,8 @@ import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 import FilterLeft from "../filters/left";
 import {getSearchId} from "../../reduxToolkit/toolkitSlice";
-import {useDispatch} from "@reduxjs/toolkit";
+
+import { useDispatch } from 'react-redux';
 
 function TicketsList(props) {
 

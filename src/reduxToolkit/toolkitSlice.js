@@ -1,4 +1,4 @@
-import {createSlice} from "redux-toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const toolkitSlice = createSlice({
         name: "toolkitSlice",
