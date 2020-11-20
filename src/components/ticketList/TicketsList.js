@@ -23,18 +23,16 @@ function TicketsList(props) {
         dispatch(getSearchIdNum())
     },[dispatch])
 
-
-
     const getSearchIdNum = () => async dispatch => {
         try {
             await axios.get('https://front-test.beta.aviasales.ru/search')
                 .then(res =>
                     dispatch(getSearchId(res?.data?.searchId)))
             }
-            catch(error) {
-                console.log(error)
-            }
+        catch(error) {
+            console.log(error)
         }
+    }
 
     useEffect( () => {
         setLoading(true)
@@ -45,18 +43,21 @@ function TicketsList(props) {
 
         if(!searchId)   return false
 
-        await axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchId)
-            .then(res=> {
-                if( res?.data?.tickets ) {
-                    dispatch(getTicketsInitial(searchId))
-                }
-                setLoading(false)
-            })
-            .catch( (error) => {
-                setException(error.message)
-                setTickets([])
-                setLoading(false)
-            })
+        try {
+
+            await axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchId)
+                .then(res => {
+                    dispatch(getTicketsInitial(res?.data?.tickets))
+                    setLoading(false)
+                })
+                .catch((error) => {
+                    setException(error.message)
+                    setTickets([])
+                    setLoading(false)
+                })
+        } catch(error) {
+            console.log(error)
+        }
     }
 
     useEffect( ()=> {
