@@ -4,9 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import TicketsList from "./components/ticketList";
+import store from "./reduxToolkit";
+import {Provider} from "react-redux";
 
 ReactDOM.render(
-  <TicketsList/>    ,
+    <Provider store={store}>
+        <TicketsList/>
+    </Provider>,
   document.getElementById('root')
 );
 
