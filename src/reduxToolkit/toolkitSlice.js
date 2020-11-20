@@ -3,17 +3,19 @@ import {createSlice} from "@reduxjs/toolkit";
 const toolkitSlice = createSlice({
         name: "toolkitSlice",
         initialState: {
-            searchId: null
+            searchId: null,
+            ticketsInitial: []
         },
         reducers: {
             getSearchId: (state, action) => {
                 state.searchId = action.payload;
-                console.log("state.searchId")
-                console.log(state.searchId)
             },
+            getTicketsInitial: (state, action) => {
+                state.ticketsInitial = action.payload
+            }
         }
     }
 )
 
 export default toolkitSlice.reducer
-export const {getSearchId} = toolkitSlice.actions
+export const {getSearchId, getTicketsInitial} = toolkitSlice.actions

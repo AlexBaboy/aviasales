@@ -4,7 +4,7 @@ import axios from "axios"
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 import FilterLeft from "../filters/left";
-import {getSearchId} from "../../reduxToolkit/toolkitSlice";
+import {getSearchId, getTicketsInitial} from "../../reduxToolkit/toolkitSlice";
 
 import { useDispatch } from 'react-redux';
 
@@ -20,16 +20,15 @@ function TicketsList(props) {
 
     useEffect( () => {
         setLoading(true)
-        console.log("19!")
         dispatch(getSearchIdNum())
     },[dispatch])
 
+
+
     const getSearchIdNum = () => async dispatch => {
-        debugger
         try {
             await axios.get('https://front-test.beta.aviasales.ru/search')
                 .then(res =>
-                    //getTickets(res?.data?.searchId)
                     dispatch(getSearchId(res?.data?.searchId)))
             }
             catch(error) {
@@ -37,25 +36,19 @@ function TicketsList(props) {
             }
         }
 
-    /*export const fetchUsers = () => async dispatch => {
-        +    try {
-            +        await api.get('/users')
-            +            .then((response) => dispatch(usersSuccess(response.data)))
-            +    }
-        +    catch (e) {
-            +        return console.error(e.message);
-            +    }
-        +}*/
+    useEffect( () => {
+        setLoading(true)
+        dispatch(getTicketsInitialArr(searchId))
+    },[searchId])
 
-    const getTickets = (searchIdNum) => {
+    const getTicketsInitialArr = (searchId) => async dispatch => {
 
-        if(!searchIdNum)   return false
-        setSearchId(searchIdNum)
+        if(!searchId)   return false
 
-        axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
+        await axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchId)
             .then(res=> {
                 if( res?.data?.tickets ) {
-                    setTicketsInitial(res?.data?.tickets)
+                    dispatch(getTicketsInitial(searchId))
                 }
                 setLoading(false)
             })
