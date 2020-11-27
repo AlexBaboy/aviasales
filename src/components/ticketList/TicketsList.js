@@ -4,111 +4,94 @@ import axios from "axios"
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 import FilterLeft from "../filters/left";
-import {getSearchId, getTicketsInitial} from "../../reduxToolkit/toolkitSlice";
 
-import { useDispatch } from 'react-redux';
-
+let TICKETS = []
 function TicketsList(props) {
 
     const [tickets, setTickets] = useState([])
     const [searchId, setSearchId] = useState('')
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
-    const [ticketsInitial, setTicketsInitial] = useState([])
-
-    const dispatch = useDispatch()
-
-    useEffect( () => {
-        setLoading(true)
-        dispatch(getSearchIdNum())
-    },[dispatch])
-
-    const getSearchIdNum = () => async dispatch => {
-        try {
-            await axios.get('https://front-test.beta.aviasales.ru/search')
-                .then(res =>
-                    dispatch(getSearchId(res?.data?.searchId)))
-            }
-        catch(error) {
-            console.log(error)
-        }
-    }
+    const [filter, setFilterValue] = useState()
+    const [checkBoxChecked, setCheckBoxChecked] = useState(false)
 
     useEffect( () => {
-        setLoading(true)
-        dispatch(getTicketsInitialArr(searchId))
-    },[searchId])
+        axios.get('https://front-test.beta.aviasales.ru/search')
+            .then(res => {
+                getTickets(res?.data?.searchId)
+            })
+            .catch( (error) => {
+                console.log(error)
+            })
+    },[])
 
-    const getTicketsInitialArr = (searchId) => async dispatch => {
+    const getTickets = (searchIdNum) => {
 
-        if(!searchId)   return false
+        if(!searchIdNum)   return false
+        setSearchId(searchIdNum)
 
-        try {
+        axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
+            .then(res=> {
+                if( res?.data?.tickets ) {
+                    TICKETS = res?.data?.tickets
+                    //setTickets( res?.data?.tickets )
 
-            await axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchId)
-                .then(res => {
-                    dispatch(getTicketsInitial(res?.data?.tickets))
-                    setLoading(false)
-                })
-                .catch((error) => {
-                    setException(error.message)
-                    setTickets([])
-                    setLoading(false)
-                })
-        } catch(error) {
-            console.log(error)
-        }
+                    // сразу сортируем цена - по возрастанию!!!
+                    let sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
+                    setTickets(sortedTickets)
+
+                    // сразу сортируем длительность - по возрастанию!!!
+                    /*let sortedTicketsLong = TICKETS.sort((a,b) => a.segments.duration - b.segments.duration);
+                    setTickets(sortedTicketsLong)*/
+
+
+                }
+                setLoading(false)
+            })
+            .catch( (error) => {
+                setException(error.message)
+                setTickets([])
+            })
     }
-
-    useEffect( ()=> {
-
-        // сразу сортируем по полю цена - по возрастанию!!!
-        const sortedTickets = ticketsInitial.sort((a,b) => a.price - b.price);
-        setTickets(sortedTickets)
-
-    }, [ticketsInitial])
 
     const makefilterTickets = (filteredTickets) => {
+        //setTickets(filteredTickets)
 
         // сотировка по цене - по возрастанию !!!
-        const sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
+        let sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
         setTickets(sortedTickets)
+
+        // сортировка по внутреннему массиву - поле продолжительность !!!
+        /*let sortedTicketsLong = TICKETS.sort((a,b) => a.segments.sort(seg1, seg2) => seg1.duration - seg2.duration);
+        setTickets(sortedTicketsLong)*/
     }
 
-    if(exception) return <div className={styles.ticketsContainerRoot}>Нет данных с сервера</div>
-    if(loading) return <div className={styles.ticketsContainerRoot}>идет загрузка...</div>
+    if(exception) return <div className={styles.content}><div className={styles.ticketsContainer}>Нет данных с сервера</div></div>
+    if(loading) return <div className={styles.content}><div className={styles.ticketsContainer}>Идет загрузка...</div></div>
 
     return (
+        <div className={styles.content}>
 
-        ticketsInitial ?
+            <FilterLeft ticketsIntitial={TICKETS} makefilterTickets={makefilterTickets} />
 
-            <div className={styles.ticketsContainerRoot}>
-
-                <FilterLeft ticketsIntitial={ticketsInitial} makefilterTickets={makefilterTickets} />
-
-                    <div className={styles.ticketsContainer}>
-                        <div className={styles.ticketTypeCheckers}>
-                            <div className={styles.ticketTypeCheckerChecked}>
-                                <div className={styles.ticketTypeCheckerText}>Самый дешевый</div>
-                            </div>
-                            <div className={styles.ticketTypeChecker}>
-                                <div className={styles.ticketTypeCheckerText}>Самый быстрый</div>
-                            </div>
-                        </div>
-                        {tickets ?
-                            tickets.map((ticket) =>
-                                <TicketDetail {...ticket} key={
-                                                                ticket.segments[0].date +
-                                                                ticket.segments[0].destination +
-                                                                ticket.segments[0].duration +
-                                                                ticket.segments[0].origin } />
-                            )
-                            :
-                            <div>Билетов нет</div>
-                        }
+            <div className={styles.ticketsContainer}>
+                <div className={styles.ticketTypeCheckers}>
+                    <div className={styles.ticketTypeCheckerChecked}>
+                        <div className={styles.ticketTypeCheckerText}>Самый дешевый</div>
                     </div>
+                    <div className={styles.ticketTypeChecker}>
+                        <div className={styles.ticketTypeCheckerText}>Самый быстрый</div>
+                    </div>
+                </div>
+                {tickets ?
+                    tickets.map((ticket) =>
+                        <TicketDetail {...ticket} key={Math.random()}/>
+                    )
+                    :
+                    <div>Билетов нет</div>
+                }
             </div>
-        : ""
+        </div>
     )
 }
 

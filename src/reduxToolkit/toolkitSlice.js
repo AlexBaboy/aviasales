@@ -11,6 +11,7 @@ const toolkitSlice = createSlice({
                 state.searchId = action.payload;
             },
             getTicketsInitial: (state, action) => {
+                console.log("toolkitSlice 14")
                 state.ticketsInitial = action.payload
             }
         }
