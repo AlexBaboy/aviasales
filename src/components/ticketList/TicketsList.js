@@ -5,14 +5,15 @@ import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 import FilterLeft from "../filters/left";
 import store from "../../reduxToolkit";
-import {getTicketsInitial} from "../../reduxToolkit/toolkitSlice";
+import {getTicketsInitial, setTicketsReducer} from "../../reduxToolkit/toolkitSlice";
 import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 
 let TICKETS = []
 function TicketsList(props) {
 
-    const [tickets, setTickets] = useState([])
-    const [searchId, setSearchId] = useState('')
+    //const [tickets, setTickets] = useState([])
+    const tickets = useSelector(state => state.toolkit.setTicketsReducer)
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
     const [filter, setFilterValue] = useState()
@@ -26,16 +27,12 @@ function TicketsList(props) {
                 getTickets(res?.data?.searchId)
             })
             .catch( (error) => {
-                console.log(error)
                 setException(error.message)
             })
     },[])
 
     const getTickets = (searchIdNum) => {
-        console.log("searchIdNum")
-        console.log(searchIdNum)
         if(!searchIdNum)   return false
-        setSearchId(searchIdNum)
 
         axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
             .then(res=> {
@@ -43,31 +40,25 @@ function TicketsList(props) {
                     //TICKETS = res?.data?.tickets
                     //setTickets( res?.data?.tickets )
 
-                    const TICKETS = dispatch(getTicketsInitial(res?.data?.tickets)).payload
+                    const TICKETS = res?.data?.tickets
 
                     console.log("48 !TICKETS")
                     console.log(TICKETS)
-                    debugger
+                    console.log(TICKETS.length)
+
                     // сразу сортируем цена - по возрастанию!!!
-                    let sortedTickets = TICKETS.sort((a,b) => a.price - b.price);
+                    let sortedTickets = dispatch(setTicketsReducer(TICKETS));
 
                     console.log("sortedTickets")
                     console.log(sortedTickets)
-
-                    //setTickets(sortedTickets)
-                    dispatch(setTickets(sortedTickets))
-
-                    //store.dispatch(getTickets((sortedTickets)))
-
                 }
                 setLoading(false)
             })
             .catch( (error) => {
                 setException(error.message)
-                setTickets([])
+                //setTickets([])
+                dispatch(setTicketsReducer([]))
             })
-
-
     }
 
     const makefilterTickets = (filteredTickets) => {
@@ -75,7 +66,8 @@ function TicketsList(props) {
 
         // сотировка по цене - по возрастанию !!!
         let sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
-        setTickets(sortedTickets)
+        //setTickets(sortedTickets)
+        dispatch(setTicketsReducer(sortedTickets))
     }
 
     if(exception) return <div className={styles.content}><div className={styles.ticketsContainer}>Нет данных с сервера</div></div>
