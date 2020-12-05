@@ -3,20 +3,19 @@ import {createSlice} from "@reduxjs/toolkit";
 const toolkitSlice = createSlice({
         name: "toolkitSlice",
         initialState: {
+            ticketsInitial: [],
             tickets: []
         },
         reducers: {
-            getSearchId: (state, action) => {
-                state.searchId = action.payload;
+            setTicketsInitial: (state, action ) => {
+                state.ticketsInitial = action.payload.sort((a,b) => a.price - b.price);
             },
-            setTicketsReducer: (state, action ) => {
+            setTickets: (state, action ) => {
                 state.tickets = action.payload.sort((a,b) => a.price - b.price);
-                console.log("14 toolkit state.tickets ")
-                console.log(state.tickets)
             }
         }
     }
 )
 
 export default toolkitSlice.reducer
-export const {getSearchId, setTicketsReducer} = toolkitSlice.actions
+export const {setTicketsInitial, setTickets} = toolkitSlice.actions

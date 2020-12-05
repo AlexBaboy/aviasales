@@ -15,9 +15,6 @@ function FilterLeft( props ) {
         const checked = event.target.checked
         const type = event.target.getAttribute("id")
 
-        console.log("19 checked = " + checked)
-        console.log("19 type = " + type)
-
         if(checked)
             setIdChecked(type)
         else
@@ -29,7 +26,6 @@ function FilterLeft( props ) {
         switch (type) {
             case "all":
                 filterType = 'all'
-                //setCheckBoxChecked(true)
                 break;
             case "withoutStops":
                 filterType = 'withoutStops'
@@ -63,10 +59,6 @@ function FilterLeft( props ) {
             makefilterTickets(ticketsIntitial)
         }
     }
-
-    useEffect( ()=> {
-
-    })
 
     const checkBoxChecked =( id ) => {
 
