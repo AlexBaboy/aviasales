@@ -34,26 +34,25 @@ function TicketsList(props) {
 
             axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
             .then(res=> {
-                if( res?.data?.tickets ) {
 
-                    const TICKETS = res?.data?.tickets
-                    let sortedTickets = dispatch(setTicketsInitial(TICKETS));
-                }
+                if( res?.data?.tickets )
+                    dispatch(setTicketsInitial(res?.data?.tickets));
+
                 setLoading(false)
             })
             .catch( (error) => {
                 setException(error.message)
-                //setTickets([])
-                dispatch(setTickets([]))
+                dispatch(setTicketsInitial([]))
             })
     }
 
     const makefilterTickets = (filteredTickets) => {
-
+        console.log("filteredTickets = ")
+        console.log(filteredTickets)
         // сотировка по цене - по возрастанию !!!
-        let sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
+        //let sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
         //setTickets(sortedTickets)
-        dispatch(setTickets(sortedTickets))
+        dispatch(setTickets(filteredTickets))
     }
 
     if(exception) return <div className={styles.content}><div className={styles.ticketsContainer}>Нет данных с сервера</div></div>
