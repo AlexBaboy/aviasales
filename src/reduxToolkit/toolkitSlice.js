@@ -11,7 +11,7 @@ const toolkitSlice = createSlice({
             },
             setTicketsReducer: (state, action ) => {
                 state.tickets = action.payload.sort((a,b) => a.price - b.price);
-                console.log("14 state.tickets ")
+                console.log("14 toolkit state.tickets ")
                 console.log(state.tickets)
             }
         }

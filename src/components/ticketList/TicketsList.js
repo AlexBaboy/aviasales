@@ -4,10 +4,8 @@ import axios from "axios"
 import styles from './Tickets.module.sass'
 import TicketDetail from "../ticket";
 import FilterLeft from "../filters/left";
-import store from "../../reduxToolkit";
-import {getTicketsInitial, setTicketsReducer} from "../../reduxToolkit/toolkitSlice";
-import {useDispatch} from "react-redux";
-import {useSelector} from "react-redux";
+import {setTicketsReducer} from "../../reduxToolkit/toolkitSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 let TICKETS = []
 function TicketsList(props) {
@@ -18,6 +16,8 @@ function TicketsList(props) {
     const [loading, setLoading] = useState(true)
     const [filter, setFilterValue] = useState()
     const [checkBoxChecked, setCheckBoxChecked] = useState(false)
+
+    let searchId
 
     const dispatch = useDispatch()
 
@@ -34,7 +34,9 @@ function TicketsList(props) {
     const getTickets = (searchIdNum) => {
         if(!searchIdNum)   return false
 
-        axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
+        searchId = searchIdNum
+
+            axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
             .then(res=> {
                 if( res?.data?.tickets ) {
                     //TICKETS = res?.data?.tickets
@@ -44,7 +46,6 @@ function TicketsList(props) {
 
                     console.log("48 !TICKETS")
                     console.log(TICKETS)
-                    console.log(TICKETS.length)
 
                     // сразу сортируем цена - по возрастанию!!!
                     let sortedTickets = dispatch(setTicketsReducer(TICKETS));
