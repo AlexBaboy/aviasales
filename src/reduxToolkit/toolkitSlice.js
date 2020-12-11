@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const setTicketsInitial = createAsyncThunk(
+export const setTicketsInitial = createAsyncThunk(
     'tickets/setTicketsInitial',
     async (searchId, { getState, requestId }) => {
         const response = await axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchId)
@@ -22,7 +22,7 @@ const toolkitSlice = createSlice({
 
             setTickets(state, action) {
                 state.tickets = action.payload.sort((a,b) => a.price - b.price);
-            }
+            },
 
         },
 
@@ -35,6 +35,8 @@ const toolkitSlice = createSlice({
             [setTicketsInitial.fulfilled]: (state, action) => {
                 state.ticketsInitial = action.payload.sort((a,b) => a.price - b.price);
                 state.loading = false
+                console.log("38 ticketsInitial")
+                console.log(state.ticketsInitial)
             },
             [setTicketsInitial.rejected]: (state, action) => {
                 const { requestId } = action.meta
@@ -45,4 +47,4 @@ const toolkitSlice = createSlice({
     )
 
 export default toolkitSlice.reducer
-export const {setTicketsInitial, setTickets} = toolkitSlice.actions
+export const {setTickets} = toolkitSlice.actions

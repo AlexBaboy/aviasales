@@ -26,6 +26,7 @@ function FilterLeft( props ) {
         switch (type) {
             case "all":
                 filterType = 'all'
+                //setCheckBoxChecked(true)
                 break;
             case "withoutStops":
                 filterType = 'withoutStops'
@@ -56,7 +57,7 @@ function FilterLeft( props ) {
 
             makefilterTickets(filteredTickets)
         } else {
-            console.log("59 ticketsIntitial = ")
+            console.log("60 ticketsIntitial = ")
             console.log(ticketsIntitial)
             makefilterTickets(ticketsIntitial)
         }
