@@ -21,6 +21,8 @@ const toolkitSlice = createSlice({
         reducers: {
 
             setTickets(state, action) {
+                console.log("24 action.payload")
+                console.log(action.payload)
                 state.tickets = action.payload.sort((a,b) => a.price - b.price);
             },
 
@@ -32,6 +34,7 @@ const toolkitSlice = createSlice({
             })
             builder.addCase(setTicketsInitial.fulfilled, (state, action) => {
                 state.ticketsInitial = action.payload.sort((a, b) => a.price - b.price)
+                state.tickets = state.ticketsInitial
                 state.loading = false
             })
             builder.addCase(setTicketsInitial.rejected, (state, action) => {

@@ -30,9 +30,6 @@ function TicketsList(props) {
     const makefilterTickets = (filteredTickets) => {
         console.log("filteredTickets = ")
         console.log(filteredTickets)
-        // сотировка по цене - по возрастанию !!!
-        //let sortedTickets = filteredTickets.sort((a,b) => a.price - b.price);
-        //setTickets(sortedTickets)
         dispatch(setTickets(filteredTickets))
     }
 
