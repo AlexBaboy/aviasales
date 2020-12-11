@@ -11,8 +11,7 @@ function TicketsList(props) {
 
     const ticketsInitial = useSelector(state => state.toolkit.ticketsInitial)
     const tickets = useSelector(state => state.toolkit.tickets)
-
-    const [exception, setException] = useState('')
+    const exception = useSelector(state => state.toolkit.exception)
     const loading = useSelector(state => state.toolkit.loading)
 
     const dispatch = useDispatch()
@@ -23,13 +22,11 @@ function TicketsList(props) {
                 dispatch(setTicketsInitial(res?.data?.searchId))
             })
             .catch( (error) => {
-                setException(error.message)
+                console.log(error.message)
             })
     },[])
 
     const makefilterTickets = (filteredTickets) => {
-        console.log("filteredTickets = ")
-        console.log(filteredTickets)
         dispatch(setTickets(filteredTickets))
     }
 

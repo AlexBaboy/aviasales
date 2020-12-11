@@ -57,8 +57,6 @@ function FilterLeft( props ) {
 
             makefilterTickets(filteredTickets)
         } else {
-            console.log("60 ticketsIntitial = ")
-            console.log(ticketsIntitial)
             makefilterTickets(ticketsIntitial)
         }
     }

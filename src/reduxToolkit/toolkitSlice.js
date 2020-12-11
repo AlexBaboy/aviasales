@@ -15,15 +15,15 @@ const toolkitSlice = createSlice({
         initialState: {
             ticketsInitial: [],
             tickets: [],
-            loading: true
+            loading: true,
+            exception: false
         },
 
         reducers: {
 
             setTickets(state, action) {
-                console.log("24 action.payload")
-                console.log(action.payload)
-                state.tickets = action.payload.sort((a,b) => a.price - b.price);
+                state.tickets = action.payload.slice().sort((a,b) => a.price - b.price);
+                state.loading = false
             },
 
         },
@@ -39,7 +39,7 @@ const toolkitSlice = createSlice({
             })
             builder.addCase(setTicketsInitial.rejected, (state, action) => {
                 const { requestId } = action.meta
-                state.error = action.error
+                state.exception = action.error
                 state.currentRequestId = undefined
             })
         }
