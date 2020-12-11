@@ -15,6 +15,7 @@ function TicketsList(props) {
     const [exception, setException] = useState('')
     const [loading, setLoading] = useState(true)
     const [filter, setFilterValue] = useState()
+    const [searchId, setSearchId] = useState(null)
     const [checkBoxChecked, setCheckBoxChecked] = useState(false)
 
     const dispatch = useDispatch()
@@ -22,29 +23,13 @@ function TicketsList(props) {
     useEffect( () => {
         axios.get('https://front-test.beta.aviasales.ru/search')
             .then(res => {
-                getTickets(res?.data?.searchId)
+                //setSearchId(res?.data?.searchId)
+                dispatch(setTicketsInitial(res?.data?.searchId))
             })
             .catch( (error) => {
                 setException(error.message)
             })
     },[])
-
-    const getTickets = (searchIdNum) => {
-        if(!searchIdNum)   return false
-
-            axios.get('https://front-test.beta.aviasales.ru/tickets?searchId=' + searchIdNum)
-            .then(res=> {
-
-                if( res?.data?.tickets )
-                    dispatch(setTicketsInitial(res?.data?.tickets));
-
-                setLoading(false)
-            })
-            .catch( (error) => {
-                setException(error.message)
-                dispatch(setTicketsInitial([]))
-            })
-    }
 
     const makefilterTickets = (filteredTickets) => {
         console.log("filteredTickets = ")
