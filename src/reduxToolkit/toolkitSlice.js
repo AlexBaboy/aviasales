@@ -10,13 +10,19 @@ const setTicketsInitial = createAsyncThunk(
 )
 
 const toolkitSlice = createSlice({
+
         name: "toolkitSlice",
         initialState: {
             ticketsInitial: [],
             tickets: [],
             loading: true
         },
+
         reducers: {
+
+            setTickets(state, action) {
+                state.tickets = action.payload.sort((a,b) => a.price - b.price);
+            }
 
         },
 
