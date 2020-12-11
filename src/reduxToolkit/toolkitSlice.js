@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import getTickets from "../components/ticketList/TicketsList";
 import axios from "axios";
 
 const setTicketsInitial = createAsyncThunk(
