@@ -13,11 +13,7 @@ function TicketsList(props) {
     const tickets = useSelector(state => state.toolkit.tickets)
 
     const [exception, setException] = useState('')
-    //const [loading, setLoading] = useState(true)
     const loading = useSelector(state => state.toolkit.loading)
-    const [filter, setFilterValue] = useState()
-    const [searchId, setSearchId] = useState(null)
-    const [checkBoxChecked, setCheckBoxChecked] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -59,7 +55,7 @@ function TicketsList(props) {
                 </div>
                 {tickets ?
                     tickets.map((ticket) =>
-                        <TicketDetail {...ticket} key={Math.random()}/>
+                        <TicketDetail {...ticket} key={ticket.segments[0].date + ticket.segments[0].duration}/>
                     )
                     :
                     <div>Билетов нет</div>

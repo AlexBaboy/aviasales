@@ -26,25 +26,21 @@ const toolkitSlice = createSlice({
 
         },
 
-        extraReducers: {
-
-            [setTicketsInitial.pending]: (state, action) => {
-                    state.loading = true
-                }
-            },
-            [setTicketsInitial.fulfilled]: (state, action) => {
-                state.ticketsInitial = action.payload.sort((a,b) => a.price - b.price);
+        extraReducers: (builder) => {
+            builder.addCase(setTicketsInitial.pending, (state, action) => {
+                state.loading = true
+            })
+            builder.addCase(setTicketsInitial.fulfilled, (state, action) => {
+                state.ticketsInitial = action.payload.sort((a, b) => a.price - b.price)
                 state.loading = false
-                console.log("38 ticketsInitial")
-                console.log(state.ticketsInitial)
-            },
-            [setTicketsInitial.rejected]: (state, action) => {
+            })
+            builder.addCase(setTicketsInitial.rejected, (state, action) => {
                 const { requestId } = action.meta
                 state.error = action.error
                 state.currentRequestId = undefined
-            }
+            })
         }
-    )
+})
 
 export default toolkitSlice.reducer
 export const {setTickets} = toolkitSlice.actions
